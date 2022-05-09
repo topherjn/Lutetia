@@ -67,6 +67,7 @@ class SiteDetailFragment : Fragment() {
             binding.newSiteButton.setOnClickListener { editUI(true)  }
 
             // set up update
+            binding.editSiteButton.setOnClickListener { editUI(false) }
         }
     }
 
@@ -81,6 +82,13 @@ class SiteDetailFragment : Fragment() {
             binding.siteArrondissementEditText.setText("")
             binding.urlEditText.setText("")
             binding.siteNotesEditText.setText("")
+
+            binding.newSiteButton.setText("Save")
+            binding.newSiteButton.setOnClickListener { addSite()}
+        }
+        else {
+            binding.editSiteButton.setText("Save Changes")
+            binding.editSiteButton.setOnClickListener { editSite() }
         }
 
         binding.siteNameEditText.isEnabled = true
@@ -88,9 +96,18 @@ class SiteDetailFragment : Fragment() {
         binding.urlEditText.isEnabled = true
         binding.urlEditText.isVisible = true
         binding.siteNotesEditText.isEnabled = true
+    }
 
-        binding.newSiteButton.setText("Save")
-        binding.newSiteButton.setOnClickListener { addSite()}
+    private fun editSite() {
+        viewModel.updateSite(
+            siteIdParam!!.toInt(),
+            binding.siteNameEditText.text.toString(),
+            binding.siteArrondissementEditText.text.toString().toInt(),
+            binding.urlEditText.text.toString(),
+            binding.siteNotesEditText.text.toString()
+        )
+
+        goToSiteList()
     }
 
     private fun addSite() {
