@@ -55,6 +55,8 @@ class SiteListFragment : Fragment() {
         recyclerView = binding.siteRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+
+
         val siteAdapter = SiteAdapter {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(it.url)
