@@ -1,6 +1,9 @@
 package com.topherjn.lutetia.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +11,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.coroutineScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.topherjn.lutetia.LutetiaApplication
@@ -54,18 +58,20 @@ class SiteListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         val siteAdapter = SiteAdapter {
-            val siteId = it.siteId
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setData(Uri.parse(it.url))
+            startActivity(intent)
         }
 
         recyclerView.adapter = siteAdapter
 
         lifecycle.coroutineScope.launch {
-            viewModel.getSites(arrondissementParam!!).collect {
+
+            viewModel.getSites(arrondissementParam!!).collect() {
                 siteAdapter.submitList(it)
             }
+
         }
-
-
     }
 
     override fun onDestroyView() {

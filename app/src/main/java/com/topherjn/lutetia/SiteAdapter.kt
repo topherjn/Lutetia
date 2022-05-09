@@ -15,7 +15,6 @@ class SiteAdapter(private val onItemClicked: (Site) -> Unit): ListAdapter<Site,
     class SiteViewHolder(private var binding: SiteItemBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(site: Site) {
-
             binding.siteNameTextView.text = site.siteName
             binding.siteNotesTextView.text = site.notes
         }
