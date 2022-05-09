@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 class SiteViewModel(private val siteDao: SiteDao): ViewModel() {
 
     fun getSites(arrondissement: Int): List<Site> = siteDao.getSitesByArrondissement(arrondissement)
+
+    fun getSite(siteId: Int): Site = siteDao.getSiteBySiteId(siteId)
 }
 
 class SiteViewModelFactory(private val siteDao: SiteDao): ViewModelProvider.Factory {

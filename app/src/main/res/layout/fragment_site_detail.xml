@@ -10,7 +10,8 @@
         android:id="@+id/site_name_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Site Name"
+        android:enabled="false"
+        android:hint="@string/site_name"
         android:importantForAutofill="no"
         android:inputType="text"
         android:textColorHint="#757575" />
@@ -19,7 +20,8 @@
         android:id="@+id/site_arrondissement_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Arrondissement"
+        android:enabled="false"
+        android:hint="@string/arrondissement"
         android:importantForAutofill="no"
         android:inputType="number"
         android:minHeight="48dp"
@@ -29,7 +31,8 @@
         android:id="@+id/site_notes_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Notes"
+        android:enabled="false"
+        android:hint="@string/notes"
         android:importantForAutofill="no"
         android:inputType="text"
         android:minHeight="48dp"
@@ -39,19 +42,18 @@
         android:id="@+id/edit_site_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit Site" />
+        android:text="@string/edit_site" />
 
     <Button
         android:id="@+id/delete_site_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Delete Site" />
+        android:text="@string/delete_site" />
 
     <Button
         android:id="@+id/new_site_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Site" />
-
+        android:text="@string/new_site" />
 
 </LinearLayout>

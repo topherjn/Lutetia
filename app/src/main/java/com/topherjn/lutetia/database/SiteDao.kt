@@ -9,7 +9,7 @@ interface SiteDao {
     fun getSitesByArrondissement(arrondissement: Int): List<Site>
 
     @Query("SELECT * FROM site WHERE siteId = :siteId")
-    fun getSiteBySiteId(siteId: Int): List<Site>
+    fun getSiteBySiteId(siteId: Int): Site
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSite(site: Site)
