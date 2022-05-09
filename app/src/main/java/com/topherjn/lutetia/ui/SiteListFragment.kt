@@ -57,9 +57,7 @@ class SiteListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         val siteAdapter = SiteAdapter {
-//            val intent = Intent(Intent.ACTION_VIEW)
-//            intent.data = Uri.parse(it.url)
-//            startActivity(intent)
+
             val siteId = it.siteId
             val action = SiteListFragmentDirections.actionSiteListFragmentToSiteDetailFragment(siteId)
             findNavController().navigate(action)

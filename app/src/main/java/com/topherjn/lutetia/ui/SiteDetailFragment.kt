@@ -1,6 +1,9 @@
 package com.topherjn.lutetia.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -68,6 +71,11 @@ class SiteDetailFragment : Fragment() {
 
             // set up update
             binding.editSiteButton.setOnClickListener { editUI(false) }
+
+            // show map button
+            binding.showMapButton.setOnClickListener {
+                showMap()
+            }
         }
     }
 
@@ -132,5 +140,12 @@ class SiteDetailFragment : Fragment() {
                 binding.siteArrondissementEditText.text.toString().toInt()
             )
         findNavController().navigate(action)
+    }
+
+    private fun showMap() {
+        val intent = Intent(Intent.ACTION_VIEW)
+        Log.d("MAP", binding.urlEditText.text.toString())
+        intent.setData(Uri.parse(binding.urlEditText.text.toString()))
+        startActivity(intent)
     }
 }

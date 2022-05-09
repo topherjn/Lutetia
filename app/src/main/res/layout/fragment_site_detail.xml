@@ -49,6 +49,12 @@
         android:textColorHint="#757575" />
 
     <Button
+        android:id="@+id/show_map_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/show_map" />
+
+    <Button
         android:id="@+id/edit_site_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
