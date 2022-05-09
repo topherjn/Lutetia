@@ -8,4 +8,5 @@
     <string name="edit_site">Edit Site</string>
     <string name="delete_site">Delete Site</string>
     <string name="new_site">New Site</string>
+    <string name="url">URL</string>
 </resources>

@@ -14,6 +14,30 @@ class SiteViewModel(private val siteDao: SiteDao): ViewModel() {
     fun getSites(arrondissement: Int): List<Site> = siteDao.getSitesByArrondissement(arrondissement)
 
     fun getSite(siteId: Int): Site = siteDao.getSiteBySiteId(siteId)
+
+    fun addSite(
+        siteId: Int,
+        siteName: String,
+        arrondissement: Int,
+        url: String,
+        notes: String,
+    ) {
+        val site = Site(
+            siteId= siteId,
+            siteName = siteName,
+            arrondissement = arrondissement,
+            url = url,
+            notes = notes
+        )
+
+        viewModelScope.launch(Dispatchers.IO) { siteDao.insertSite(site)}
+    }
+
+    fun deleteSite(site: Site) {
+        viewModelScope.launch(Dispatchers.IO) {
+            siteDao.delete(site)
+        }
+    }
 }
 
 class SiteViewModelFactory(private val siteDao: SiteDao): ViewModelProvider.Factory {
