@@ -44,7 +44,7 @@ class LocationFragment : Fragment() {
         // change title in title bar
         (activity as AppCompatActivity).supportActionBar?.title = "Arrondissement"
 
-        val action = LocationFragmentDirections.actionLocationFragmentToSiteListFragment(1)
+        val action = LocationFragmentDirections.actionLocationFragmentToSiteListFragment(4)
 
         binding.arrondissementTextView.text = "88"
         binding.arrondissementTextView.setOnClickListener { view -> view.findNavController().navigate(action)}

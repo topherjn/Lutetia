@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SiteDao {
-    @Query("SELECT * FROM site WHERE site_arrondissement = :arrondissement ORDER BY site_arrondissement")
+    @Query("SELECT * FROM site WHERE site_arrondissement = :arrondissement ORDER BY site_name")
     fun getSitesByArrondissement(arrondissement: Int): Flow<List<Site>>
 
     @Query("SELECT * FROM site WHERE siteId = :siteId")
