@@ -30,5 +30,9 @@
         android:id="@+id/siteDetailFragment"
         android:name="com.topherjn.lutetia.ui.SiteDetailFragment"
         android:label="fragment_site_detail"
-        tools:layout="@layout/fragment_site_detail" />
+        tools:layout="@layout/fragment_site_detail">
+    <argument
+        android:name="site_id"
+        app:argType="integer" />
+    </fragment>
 </navigation>

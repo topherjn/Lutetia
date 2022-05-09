@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.coroutineScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.topherjn.lutetia.LutetiaApplication
@@ -55,12 +56,13 @@ class SiteListFragment : Fragment() {
         recyclerView = binding.siteRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-
-
         val siteAdapter = SiteAdapter {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(it.url)
             startActivity(intent)
+//            val siteId = it.siteId
+//            val action = SiteListFragmentDirections.actionSiteListFragmentToSiteDetailFragment(siteId)
+//            findNavController().navigate(action)
         }
 
         recyclerView.adapter = siteAdapter
