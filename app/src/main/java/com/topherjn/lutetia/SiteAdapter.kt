@@ -50,5 +50,6 @@ class SiteAdapter(private val onItemClicked: (Site) -> Unit): ListAdapter<Site,
 
     override fun onBindViewHolder(holder: SiteViewHolder, position: Int) {
         holder.bind(getItem(position))
+
     }
 }

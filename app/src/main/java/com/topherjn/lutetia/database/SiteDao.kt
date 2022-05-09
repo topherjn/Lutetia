@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface SiteDao {
     @Query("SELECT * FROM site WHERE site_arrondissement = :arrondissement ORDER BY site_name")
-    fun getSitesByArrondissement(arrondissement: Int): Flow<List<Site>>
+    fun getSitesByArrondissement(arrondissement: Int): List<Site>
 
     @Query("SELECT * FROM site WHERE siteId = :siteId")
-    fun getSiteBySiteId(siteId: Int): Flow<List<Site>>
+    fun getSiteBySiteId(siteId: Int): List<Site>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSite(site: Site)
