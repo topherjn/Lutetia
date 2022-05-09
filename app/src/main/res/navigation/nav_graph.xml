@@ -34,5 +34,8 @@
     <argument
         android:name="site_id"
         app:argType="integer" />
+        <action
+            android:id="@+id/action_siteDetailFragment_to_siteListFragment"
+            app:destination="@id/siteListFragment" />
     </fragment>
 </navigation>
