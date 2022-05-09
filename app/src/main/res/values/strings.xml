@@ -9,4 +9,5 @@
     <string name="delete_site">Delete Site</string>
     <string name="new_site">New Site</string>
     <string name="url">URL</string>
+    <string name="show_map">Show Map</string>
 </resources>
