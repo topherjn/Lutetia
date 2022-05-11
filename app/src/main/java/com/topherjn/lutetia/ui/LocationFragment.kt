@@ -47,10 +47,13 @@ class LocationFragment : Fragment() {
         startLocationUpdates()
     }
 
+    // turn location updating on
     private fun startLocationUpdates() {
 
+        // fused location reference
         client = LocationServices.getFusedLocationProviderClient(requireContext())
 
+        // create and configure location request
         locationRequest = LocationRequest.create()
         locationRequest!!.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest!!.interval = 5000
@@ -58,6 +61,8 @@ class LocationFragment : Fragment() {
         locationRequest!!.isWaitForAccurateLocation = true
         locationRequest!!.smallestDisplacement = 0f
 
+        // create location callback and response to getting location
+        // i.e. update the textview
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations) {
@@ -67,6 +72,7 @@ class LocationFragment : Fragment() {
             }
         }
 
+        // get location permission (required)
         Log.d("STARTLOCATION","locationcallback")
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -76,6 +82,7 @@ class LocationFragment : Fragment() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+            @Suppress("DEPRECATION")
             requestPermissions(
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
@@ -85,15 +92,20 @@ class LocationFragment : Fragment() {
 
             return
         }
+
+
+        // turn the location updates on
         Log.d("STARTLOCATION","return called")
         client!!.requestLocationUpdates(locationRequest!!, locationCallback!!, Looper.getMainLooper())
 
+        // get last location - sometimes makes things faster, but it's last known location
         client!!.lastLocation
             .addOnSuccessListener { location: Location? -> updateLocationTextBox(location!!) }
 
         isTracking = true
     }
 
+    // turn off location updates
     private fun stopLocationUpdates() {
         if(isTracking) {
             client!!.removeLocationUpdates(locationCallback!!)
@@ -102,6 +114,10 @@ class LocationFragment : Fragment() {
         }
     }
 
+    // after getting the location, use Geocoder library to get postcode
+    // last two digits of Parisian postcodes correspond to the arrondissement
+    // 1 - 20
+    // when not in Paris mod the postcode to fit in 1 - 20 for built-in testing
     private fun updateLocationTextBox(lastLocation: Location) {
         //Toast.makeText(requireContext(), "updateLocationTextBox", Toast.LENGTH_SHORT).show()
         val geocoder = Geocoder(context)
@@ -120,6 +136,7 @@ class LocationFragment : Fragment() {
             var arrondissement = postalCode.toInt()
             if(arrondissement > 20) arrondissement = arrondissement.mod(20) + 1
 
+            // set textview to arrondissement and  make clickable to get site list
             binding.arrondissementTextView.text = arrondissement.toString()
             binding.arrondissementTextView.isEnabled = true
 
