@@ -66,11 +66,9 @@ class LocationFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
-
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 spinnerChange()
             }
-
         }
 
         startLocationUpdates()
@@ -124,13 +122,12 @@ class LocationFragment : Fragment() {
 
 
         // turn the location updates on
-        Log.d("STARTLOCATION","return called")
         client!!.requestLocationUpdates(locationRequest!!, locationCallback!!, Looper.getMainLooper())
 
         // get last location - sometimes makes things faster, but it's last known location
-//        client!!.lastLocation
-//            .addOnSuccessListener { location: Location? ->
-//                updateLocationTextBox(getArrondissement(location!!)) }
+        client!!.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                updateLocationTextBox(getArrondissement(location!!)) }
 
         isTracking = true
     }
@@ -147,15 +144,13 @@ class LocationFragment : Fragment() {
     private fun getArrondissement(lastLocation: Location): Int {
 
         val geocoder = Geocoder(context)
-        var arrondissement: Int = 0
+        var arrondissement = 0
 
         try {
             val addresses =
                 geocoder.getFromLocation(lastLocation.latitude, lastLocation.longitude, 1)
             var postalCode = addresses[0].postalCode
 
-            Log.d("STARTLOCATION",postalCode.toString())
-            //Toast.makeText(requireContext(), postalCode.toString(), Toast.LENGTH_LONG).show()
             if (postalCode.length > 1) {
                 postalCode = postalCode.substring(postalCode.length - 2)
                 if (postalCode[0] == '0') postalCode = postalCode.substring(postalCode.length - 1)
@@ -165,7 +160,6 @@ class LocationFragment : Fragment() {
 
 
         } catch (e: Exception) {
-            //Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
             binding.arrondissementTextView.text = e.message
         }
 
@@ -177,27 +171,29 @@ class LocationFragment : Fragment() {
     // 1 - 20
     // when not in Paris mod the postcode to fit in 1 - 20 for built-in testing
     private fun updateLocationTextBox(arrondissement: Int) {
-        //Toast.makeText(requireContext(), "updateLocationTextBox", Toast.LENGTH_SHORT).show()
 
             // set textview to arrondissement and  make clickable to get site list
             binding.arrondissementTextView.text = arrondissement.toString()
             binding.arrondissementTextView.isEnabled = true
 
-            val action = LocationFragmentDirections.actionLocationFragmentToSiteListFragment(arrondissement)
-            binding.arrondissementTextView.setOnClickListener { view -> view.findNavController().navigate(action)}
-
+            val action =
+                LocationFragmentDirections.actionLocationFragmentToSiteListFragment(arrondissement)
+            binding.arrondissementTextView
+                .setOnClickListener { view -> view.findNavController().navigate(action)}
     }
 
     private fun spinnerChange() {
         val arrondissement = binding.arrondissementSpinner.selectedItem.toString()
-        binding.arrondissementTextView.setText(arrondissement)
-        updateLocationTextBox(arrondissement.toInt())
+
+        if(!arrondissement.equals("Change Arrondissement")) {
+            binding.arrondissementTextView.setText(arrondissement)
+            updateLocationTextBox(arrondissement.toInt())
+        }
     }
 
     override fun onResume() {
         super.onResume()
 
-        Log.d("STARTLOCATION","onResume called")
         if(!isTracking)
             startLocationUpdates()
     }
