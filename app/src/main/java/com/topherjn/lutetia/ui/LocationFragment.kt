@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
@@ -43,6 +45,33 @@ class LocationFragment : Fragment() {
 
         // change title in title bar
         (activity as AppCompatActivity).supportActionBar?.title = "Arrondissement"
+
+        val arrondissements =
+            arrayOf("Change Arrondissement","1","2","3","4","5","6","7","8","9","10",
+            "11","12","13","14","15","16","17","18","19","20")
+
+        ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            arrondissements
+        ).also {
+            adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+            binding.arrondissementSpinner.adapter = adapter
+        }
+
+        binding.arrondissementSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                spinnerChange()
+            }
+
+        }
 
         startLocationUpdates()
     }
@@ -147,6 +176,10 @@ class LocationFragment : Fragment() {
             //Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
             binding.arrondissementTextView.text = e.message
         }
+    }
+
+    private fun spinnerChange() {
+        binding.arrondissementTextView.setText(binding.arrondissementSpinner.selectedItem.toString())
     }
 
     override fun onResume() {
