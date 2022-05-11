@@ -14,4 +14,9 @@
         android:textSize="200sp"
         tools:text="88" />
 
+    <Spinner
+        android:id="@+id/arrondissementSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </FrameLayout>
