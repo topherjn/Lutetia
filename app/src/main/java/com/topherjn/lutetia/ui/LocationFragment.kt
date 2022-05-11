@@ -96,7 +96,7 @@ class LocationFragment : Fragment() {
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations) {
                     Log.d("STARTLOCATION","location gotten")
-                    updateLocationTextBox(location)
+                    updateLocationTextBox(getArrondissement(location))
                 }
             }
         }
@@ -128,8 +128,9 @@ class LocationFragment : Fragment() {
         client!!.requestLocationUpdates(locationRequest!!, locationCallback!!, Looper.getMainLooper())
 
         // get last location - sometimes makes things faster, but it's last known location
-        client!!.lastLocation
-            .addOnSuccessListener { location: Location? -> updateLocationTextBox(location!!) }
+//        client!!.lastLocation
+//            .addOnSuccessListener { location: Location? ->
+//                updateLocationTextBox(getArrondissement(location!!)) }
 
         isTracking = true
     }
@@ -143,13 +144,10 @@ class LocationFragment : Fragment() {
         }
     }
 
-    // after getting the location, use Geocoder library to get postcode
-    // last two digits of Parisian postcodes correspond to the arrondissement
-    // 1 - 20
-    // when not in Paris mod the postcode to fit in 1 - 20 for built-in testing
-    private fun updateLocationTextBox(lastLocation: Location) {
-        //Toast.makeText(requireContext(), "updateLocationTextBox", Toast.LENGTH_SHORT).show()
+    private fun getArrondissement(lastLocation: Location): Int {
+
         val geocoder = Geocoder(context)
+        var arrondissement: Int = 0
 
         try {
             val addresses =
@@ -162,8 +160,24 @@ class LocationFragment : Fragment() {
                 postalCode = postalCode.substring(postalCode.length - 2)
                 if (postalCode[0] == '0') postalCode = postalCode.substring(postalCode.length - 1)
             }
-            var arrondissement = postalCode.toInt()
+            arrondissement = postalCode.toInt()
             if(arrondissement > 20) arrondissement = arrondissement.mod(20) + 1
+
+
+        } catch (e: Exception) {
+            //Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
+            binding.arrondissementTextView.text = e.message
+        }
+
+        return arrondissement
+    }
+
+    // after getting the location, use Geocoder library to get postcode
+    // last two digits of Parisian postcodes correspond to the arrondissement
+    // 1 - 20
+    // when not in Paris mod the postcode to fit in 1 - 20 for built-in testing
+    private fun updateLocationTextBox(arrondissement: Int) {
+        //Toast.makeText(requireContext(), "updateLocationTextBox", Toast.LENGTH_SHORT).show()
 
             // set textview to arrondissement and  make clickable to get site list
             binding.arrondissementTextView.text = arrondissement.toString()
@@ -172,14 +186,12 @@ class LocationFragment : Fragment() {
             val action = LocationFragmentDirections.actionLocationFragmentToSiteListFragment(arrondissement)
             binding.arrondissementTextView.setOnClickListener { view -> view.findNavController().navigate(action)}
 
-        } catch (e: Exception) {
-            //Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
-            binding.arrondissementTextView.text = e.message
-        }
     }
 
     private fun spinnerChange() {
-        binding.arrondissementTextView.setText(binding.arrondissementSpinner.selectedItem.toString())
+        val arrondissement = binding.arrondissementSpinner.selectedItem.toString()
+        binding.arrondissementTextView.setText(arrondissement)
+        updateLocationTextBox(arrondissement.toInt())
     }
 
     override fun onResume() {
