@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Lutetia</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="site_name">Site Name</string>
+    <string name="arrondissement">Arrondissement</string>
+    <string name="notes">Notes</string>
+    <string name="edit_site">Edit Site</string>
+    <string name="delete_site">Delete Site</string>
+    <string name="new_site">New Site</string>
+    <string name="url">URL</string>
+    <string name="show_map">Show Map</string>
 </resources>
